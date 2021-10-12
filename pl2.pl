@@ -9,13 +9,10 @@
 
 %   ------------- jouer
 %vérif si tableau plein --> finPartie
-jouer(Pion, Colonne) :-
+jouer(_, _) :-
 % on recupere toute les colonnes dans les variables
 	gamestate(X), nth0(0, X, C1), nth0(1, X, C2), nth0(2, X, C3), nth0(3, X, C4), nth0(4, X, C5), nth0(5, X, C6), nth0(6, X, C7),
-    length(C1,1), length(C2,1), length(C3,1), length(C4,1), length(C5,1), length(C6,1), length(C7,1), 
-    nonvar(nth0(0, FirstElem1, C1)), nonvar(nth0(0, FirstElem2, C2)), nonvar(nth0(0, FirstElem3, C3)),
-    nonvar(nth0(0, FirstElem4, C4)),nonvar(nth0(0, FirstElem5, C5)),nonvar(nth0(0, FirstElem6, C6)),
-    nonvar(nth0(0, FirstElem7, C7)),
+    length(C1,1), length(C2,1), length(C3,1), length(C4,1), length(C5,1), length(C6,1), length(C7,1),
     writeln("Tableau plein."), !, fail,
     finPartie.
 
@@ -592,19 +589,19 @@ partieAleatoire(Pion) :-
 testGagner(Pion) :-
 	sh(Pion), 
 	!, 
-	write(Pion), write(' a gagné horizontalement'),
+	write(Pion), write(' a gagné horizontalement'), ! ,fail,
 	finPartie.
 
 testGagner(Pion) :-
 	sv(Pion),
 	!,
-	write(Pion), write(' a gagné verticalement'),
+	write(Pion), write(' a gagné verticalement'), ! ,fail,
 	finPartie.
 
 testGagner(Pion) :-
     sd(Pion),
     !,
-    write(Pion), write(' a gagné diagonalement'),
+    write(Pion), write(' a gagné diagonalement'), ! ,fail,
     finPartie.
 
 testGagner(Pion) :-
@@ -627,19 +624,19 @@ partie2Joueurs(Pion) :-
 testGagner2Joueurs(Pion) :-
 	sh(Pion), 
 	!, 
-	write(Pion), write(' a gagné horizontalement'),
+	write(Pion), write(' a gagné horizontalement'), ! ,fail,
 	finPartie.
 	
 testGagner2Joueurs(Pion) :-
 	sv(Pion),
 	!,
-	write(Pion), write(' a gagné verticalement'),
+	write(Pion), write(' a gagné verticalement'), !, fail,
 	finPartie.
 
 testGagner2Joueurs(Pion) :-
     sd(Pion),
     !,
-    write(Pion), write(' a gagné diagonalement'),
+    write(Pion), write(' a gagné diagonalement'), !, fail,
     finPartie.
 	
 testGagner2Joueurs(Pion) :-
