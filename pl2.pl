@@ -9,12 +9,28 @@
 
 %   ------------- jouer
 
+% vérif numéro colonne valide
+jouer(Pion, Colonne) :-
+	not(Colonne > 0),
+	partie2Joueurs(Pion). 
+
+jouer(Pion, Colonne) :-
+	not(Colonne < 8),
+	partie2Joueurs(Pion). 
 
 jouer(x, Colonne) :-
 	jouer(x, Colonne, _).
 
 jouer(o, Colonne) :-
 	jouer(o, Colonne, _).
+
+% si colonne pleine --> on redemande une autre colonne
+jouer(Jeton,Colonne):-
+	% on recupere toute les colonnes dans les variables
+	gamestate(X), ColIndex is Colonne-1, nth0(ColIndex, X, ColChoisi),
+	not(checkTaille(ColChoisi)),%ColCoisi = liste des jetons dans la colonne numéro <Colonne>
+	partie2Joueurs(Jeton).    
+
 
 
 jouer(Jeton,1,Newgamestate):-
@@ -27,6 +43,7 @@ jouer(Jeton,1,Newgamestate):-
 	retract(gamestate(_)),	                       %on retire la configuration du precedent gamestate en donnee
 	assert(gamestate([NewCol,C2,C3,C4,C5,C6,C7])), %on insere la nouvelle configuration de gamestate en donnee
 	gamestate(Newgamestate).                       %on affiche en resultat l'etat du gamestate apres le coup joue
+
 
 jouer(Jeton,2,Newgamestate):-
 	gamestate(X), nth0(0, X, C1), nth0(1, X, ColChoisi), nth0(2, X, C3), nth0(3, X, C4), nth0(4, X, C5), nth0(5, X, C6), nth0(6, X, C7),
@@ -99,12 +116,7 @@ checkTaille(L):-
 	length(L,Nb), Nb <6,!.
 
 %regle envoyant un message d'erreur si la liste est deja égale ŕ 6
-checkTaille(L):-
-	length(L,Nb), not(Nb<6),
-	gamestate(X),
-	nth0(NumCol,X,L),
-	NumCol1 is NumCol+1,
-	write('La colonne ') , write(NumCol1) , write(' est deja rempli, veuillez sélectionner une autre'),false, !.
+
 
 
 
