@@ -17,13 +17,14 @@ jouer(_, _) :-
     finPartie.
 
 % vérif numéro colonne valide
-jouer(Pion, Colonne) :-
-	not(Colonne > 0),
-	partie2Joueurs(Pion). 
+colValide(Pion, Colonne) :-
+	not(Colonne > 0), not(Colonne < 8).
 
-jouer(Pion, Colonne) :-
-	not(Colonne < 8),
-	partie2Joueurs(Pion). 
+% vérif colonne non pleine
+colNonPleine(Jeton,Colonne):-
+	% on recupere toute les colonnes dans les variables
+	gamestate(X), ColIndex is Colonne-1, nth0(ColIndex, X, ColChoisi),
+	checkTaille(ColChoisi). 
 
 jouer(x, Colonne) :-
 	jouer(x, Colonne, _).
@@ -31,12 +32,7 @@ jouer(x, Colonne) :-
 jouer(o, Colonne) :-
 	jouer(o, Colonne, _).
 
-% si colonne pleine --> on redemande une autre colonne
-jouer(Jeton,Colonne):-
-	% on recupere toute les colonnes dans les variables
-	gamestate(X), ColIndex is Colonne-1, nth0(ColIndex, X, ColChoisi),
-	not(checkTaille(ColChoisi)),%ColCoisi = liste des jetons dans la colonne numéro <Colonne>
-	partie2Joueurs(Jeton).    
+  
 
 
 jouer(Jeton,1,Newgamestate):-
@@ -617,6 +613,8 @@ partie2Joueurs :-
 partie2Joueurs(Pion) :-
 	write(Pion), write(' à votre tour : '),
 	read(Colonne),
+	colValide(Pion, Colonne),
+	colNonPleine(Pion, Colonne),
 	jouer(Pion, Colonne),
 	afficherGrille,
 	testGagner2Joueurs(Pion).
